@@ -8,9 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.14" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CentralDePedidos.Application\CentralDePedidos.Application.csproj" />
+    <ProjectReference Include="..\CentralDePedidos.Domain\CentralDePedidos.Domain.csproj" />
+    <ProjectReference Include="..\CentralDePedidos.Infra.Data\CentralDePedidos.Infra.Data.csproj" />
+    <ProjectReference Include="..\CentralDePedidos.Infra.EventBus\CentralDePedidos.Infra.EventBus.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
   </ItemGroup>
 
 </Project>
