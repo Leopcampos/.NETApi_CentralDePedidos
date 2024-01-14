@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CentralDePedidos.Application.Commands;
+using CentralDePedidos.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CentralDePedidos.Services.Controllers;
 
@@ -6,9 +8,20 @@ namespace CentralDePedidos.Services.Controllers;
 [ApiController]
 public class PedidosController : ControllerBase
 {
+    private readonly IPedidoAppService? _pedidoAppService;
+
+    public PedidosController(IPedidoAppService? pedidoAppService) 
+        => _pedidoAppService = pedidoAppService;
+
     [HttpPost]
-    public IActionResult Post()
+    public async Task<IActionResult> Post(PedidoCreateCommand command)
     {
-        return Ok();
+        await _pedidoAppService.Add(command);
+
+        return StatusCode(201, new
+        {
+            message = "Pedido realizado com sucesso.",
+            pedido = command
+        });
     }
 }
