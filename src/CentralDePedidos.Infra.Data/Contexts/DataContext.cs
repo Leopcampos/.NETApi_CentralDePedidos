@@ -1,13 +1,20 @@
 ﻿using CentralDePedidos.Domain.Models;
+using CentralDePedidos.Infra.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace CentralDePedidos.Infra.Data.Contexts;
 
 public class DataContext : DbContext
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public DataContext(DbContextOptions<DataContext> options) : base(options)
+    { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        optionsBuilder.UseInMemoryDatabase(databaseName: "BD_CentralDePedidos");
+        modelBuilder.ApplyConfiguration(new ClienteConfiguration());
+        modelBuilder.ApplyConfiguration(new CobrancaConfiguration());
+        modelBuilder.ApplyConfiguration(new PedidoConfiguration());
+        modelBuilder.ApplyConfiguration(new ProdutoConfiguration());
     }
 
     public DbSet<Cliente> Cliente { get; set; }
