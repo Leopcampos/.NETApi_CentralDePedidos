@@ -8,6 +8,7 @@ using CentralDePedidos.Infra.Data.Contexts;
 using CentralDePedidos.Infra.Data.Repositories;
 using CentralDePedidos.Infra.EventBus.Publishers;
 using CentralDePedidos.Infra.EventBus.Settings;
+using Microsoft.EntityFrameworkCore;
 
 namespace CentralDePedidos.Services.Configurations
 {
@@ -16,6 +17,10 @@ namespace CentralDePedidos.Services.Configurations
         public static void Add(WebApplicationBuilder builder)
         {
             builder.Services.Configure<MessageBrokerSettings>(builder.Configuration.GetSection("MessageBrokerSettings"));
+
+            var connectionString = builder.Configuration.GetConnectionString("PedidosApi");
+            builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(connectionString));
+
             builder.Services.AddTransient<IPedidoAppService, PedidoAppService>();
             builder.Services.AddTransient<IPedidoDomainService, PedidoDomainService>();
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
